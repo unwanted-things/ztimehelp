@@ -1,32 +1,29 @@
-# Time Entry Helper
+# ZTimeHelp
 
-A Python application to help with time entry management.
+ZTimeHelp is a Python CLI application that helps you track and summarize your daily activities by fetching data from multiple platforms such as GitHub, Slack, and Zoom. It generates comprehensive time entry reports to help you document your work activities.
 
-## Installation
+## Features
 
-### Development Installation
+- **GitHub Activity Tracking**
+  - Track issues created
+  - Track issue comments
+  - Track pull requests created
+  - Track commits made
 
-1. Clone this repository
-2. Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   ```
-3. Install the package in development mode:
-   ```bash
-   pip install -e ".[dev]"
-   ```
 
-### Production Installation
+- **Report Generation**
+  - Generate daily reports in Markdown format
+  - Organize activities by platform and type
+  - Include links to relevant resources
+
+## Quick Start
 
 ```bash
+# Install the package
 pip install .
-```
 
-## Usage
-
-```bash
-ztimehelp --help
+# Generate a time entry report for today
+ztimehelp make-entry --date 2023-08-01 --output-dir ./reports
 ```
 
 ## Development
@@ -35,3 +32,12 @@ ztimehelp --help
 - Format code: `black src tests`
 - Sort imports: `isort src tests`
 - Lint code: `flake8 src tests`
+
+## Requirements
+
+- Python 3.8 or higher
+- GitHub Personal Access Token
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
