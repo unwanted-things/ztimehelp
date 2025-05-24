@@ -26,7 +26,7 @@ pip install .
 ## Usage
 
 ```bash
-ztime --help
+ztimehelp --help
 ```
 
 ## Development

@@ -1,4 +1,4 @@
-"""Configuration management for Time Entry Helper."""
+"""Configuration management for ZTimeHelp."""
 
 import os
 from pathlib import Path
@@ -6,11 +6,11 @@ from typing import Dict, Optional
 
 
 class Config:
-    """Configuration manager for Time Entry Helper."""
+    """Configuration manager for ZTimeHelp."""
 
     def __init__(self):
         """Initialize configuration."""
-        self.config_dir = Path.home() / ".time_entry_helper"
+        self.config_dir = Path.home() / ".ztimehelp"
         self.config_file = self.config_dir / "config.env"
         self._ensure_config_dir()
         self._config = self._load_config()
@@ -37,7 +37,7 @@ class Config:
     def get(self, key: str, default: Optional[str] = None) -> Optional[str]:
         """Get a configuration value."""
         # First check environment variables
-        env_value = os.environ.get(f"TIME_ENTRY_{key.upper()}")
+        env_value = os.environ.get(f"ZTIMEHELP_{key.upper()}")
         if env_value is not None:
             return env_value
         # Then check config file
