@@ -1,5 +1,3 @@
-"""Command-line interface for ZTimeHelp."""
-
 import datetime
 import click
 
@@ -10,7 +8,6 @@ from ztimehelp.data.make_output import process_github_data
 
 @click.group()
 def main():
-    """ZTimeHelp - Manage your time entries efficiently."""
     pass
 
 
@@ -18,8 +15,6 @@ def main():
 @click.option("--date", help="Enter the date for the time entry (YYYY-MM-DD).")
 @click.option("--output-dir", help="Directory to save the output files.")
 def make_entry(date, output_dir):
-    """Manage time entries."""
-
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d").date()
 
     token = config.get("GITHUB_TOKEN")

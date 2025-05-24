@@ -6,7 +6,6 @@ from typing import Dict, List
 def generate_summary_markdown(data: Dict) -> str:
     date_str = data.get("date", datetime.now().strftime("%Y-%m-%d"))
 
-    # Format date for display
     try:
         date_obj = datetime.fromisoformat(date_str)
         display_date = date_obj.strftime("%B %d, %Y")
