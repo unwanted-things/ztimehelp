@@ -17,15 +17,19 @@ def main():
 def make_entry(date, output_dir):
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d").date()
 
+    print(f"Processing time entry for {date_obj}...")
+
     token = config.get("GITHUB_TOKEN")
     username = config.get("GITHUB_USERNAME")
     organization = config.get("GITHUB_ORGANIZATION")
 
     github_stats = GitHubStats(token, username, date_obj, organization)
 
-    process_github_data(github_stats.get_daily_activity_summary(), date, output_dir)
+    file_patch = process_github_data(
+        github_stats.get_daily_activity_summary(date), date, output_dir
+    )
 
-    print(f"Time entry for {date} has been processed.")
+    print(f"Time entry for {date} has been processed at location: {file_patch}")
 
 
 if __name__ == "__main__":

@@ -66,7 +66,7 @@ def generate_summary_markdown(data: Dict) -> str:
                 url = commit.get("commit_url", "#")
                 md += f"- {message} ([Link]({url}))\n"
             md += "\n"
-    
+
     # Comments section
     comments = data.get("comments", {})
     comment_count = comments.get("total_count", 0)
@@ -77,7 +77,6 @@ def generate_summary_markdown(data: Dict) -> str:
     md += f"- Issue Comments: {issue_comments}\n"
     md += f"- PR Comments: {pr_comments}\n\n"
 
-    
     if issue_comments > 0:
         md += "#### Issue Comments\n\n"
         for comment in comments.get("items_issues", []):
@@ -112,13 +111,12 @@ def generate_summary_markdown(data: Dict) -> str:
             else:
                 pr_title = "Pull Request"
 
-            body = comment.get("body", "").strip() if comment.get("body") else ""
+            body = comment.get("p", "").strip() if comment.get("body") else ""
 
             md += f"- {pr_title} ([Link]({pr_url}))\n"
-            if body:    
+            if body:
                 md += f"```md\n{body}\n```\n"
         md += "\n"
-
 
     md += "## Summary\n\n"
     md += f"- **Issues Created:** {issue_count}\n"
@@ -137,4 +135,8 @@ def save_to_file(content: str, filename: str) -> None:
 def process_github_data(data: Dict, date, output_dir: str = "./") -> Dict:
     markdown = generate_summary_markdown(data)
 
-    save_to_file(markdown, f"{output_dir}/time_entry_helper_{date}.md")
+    file_path = f"{output_dir}/time_entry_helper_{date}.md"
+
+    save_to_file(markdown, file_path)
+
+    return file_path

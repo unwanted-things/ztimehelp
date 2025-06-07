@@ -2,10 +2,11 @@ import datetime
 from typing import Dict
 import pytz
 from datetime import timezone
+from ztimehelp.config import config
 
 
 def get_date_object(date: datetime.date, change_timezone=True) -> Dict[str, str]:
-    ist_tz = pytz.timezone("Asia/Kolkata")
+    ist_tz = pytz.timezone(config.get("TIME_ZONE"))
 
     start_date_ist = datetime.datetime.combine(date, datetime.time.min)
     end_date_ist = datetime.datetime.combine(date, datetime.time.max)

@@ -24,6 +24,8 @@ class GitHubStats:
 
         dateobj = get_date_object(date)
 
+        print(dateobj)
+
         self.start_date = self._format_date(dateobj["start_date"])
         self.end_date = self._format_date(dateobj["end_date"])
 
@@ -36,17 +38,24 @@ class GitHubStats:
         return response.json()
 
     def _format_date(self, date: datetime.datetime) -> str:
-        return date.strftime('%Y-%m-%d')
+        return date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     def _add_org_filter(self, query: str) -> str:
         if self.organization:
             return f"{query} org:{self.organization}"
         return query
+    
+    def _formate_large_string(self, text: str, length: int = 100) -> str:
+        if len(text) > length:
+            return text[:length] + "..."
+        return text
 
     def get_issues_created(self) -> int:
         query = f"author:{self.username} type:issue created:{self.start_date}..{self.end_date}"
         query = self._add_org_filter(query)
         params = {"q": query, "per_page": 100}
+
+        print(params)
 
         data = self._make_request("/search/issues", params)
         res = {"total_count": data["total_count"], "items": []}
@@ -66,6 +75,8 @@ class GitHubStats:
         query = f"commenter:{self.username} created:{self.start_date}..{self.end_date} org:{self.organization}"
         params = {"q": query, "per_page": 100}
 
+        print(params)
+
         data = self._make_request("/search/issues", params)
         res = {
             "total_count": data["total_count"],
@@ -75,7 +86,7 @@ class GitHubStats:
 
         for item in data.get("items", []):
             itemData = {
-                "body": item.get("body", ""),
+                "body": self._formate_large_string(item.get("body", "")),
                 "comments_url": item.get("comments_url", ""),
             }
             if "/pull/" in item["html_url"]:
@@ -117,6 +128,7 @@ class GitHubStats:
 
         params = {"q": query, "per_page": 100}
         data = self._make_request("/search/commits", params)
+        print(data,params)
         res = {"total_count": data["total_count"], "items": []}
 
         for item in data.get("items", []):
@@ -124,15 +136,13 @@ class GitHubStats:
                 {
                     "commit_url": item["html_url"],
                     "repository_url": item["repository"]["html_url"],
-                    "commit_message": item["commit"]["message"],
+                    "commit_message": self._formate_large_string(item["commit"]["message"]),
                 }
             )
 
         return res
 
     def get_daily_activity_summary(self, date: Optional[datetime.date] = None) -> Dict:
-        if date is None:
-            date = datetime.date.today()
 
         import concurrent.futures
 
@@ -160,6 +170,6 @@ class GitHubStats:
                 name, result = future.result()
                 results[name] = result
 
-        results["date"] = date.isoformat()
+        results["date"] = date
 
         return results
